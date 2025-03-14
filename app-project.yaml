@@ -1,0 +1,16 @@
+# app-project.yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: [Project Name]
+  namespace: argocd
+spec:
+  sourceRepos:
+    - "http://[GitLab UserId]:[GitLab AccessToken]@[GitLab Address/userId/repostitory.git]"  # ArgoCD가 접근할 수 있는 Git 레포지토리
+  destinations:
+    - namespace: "default"  # 배포할 네임스페이스
+      server: "https://kubernetes.default.svc"
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"

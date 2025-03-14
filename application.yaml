@@ -1,0 +1,26 @@
+# application.yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: [Project Name]
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: [Project Name]
+
+  source:
+    path: [Helm Chart Path]
+    repoURL: http://[GitLab UserId]:[GitLab AccessToken]@[GitLab Address/userId/repostitory.git]
+    targetRevision: HEAD
+
+  destination:
+    namespace: [NameSpace]
+    server: "https://kubernetes.default.svc"
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
