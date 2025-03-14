@@ -1,0 +1,11 @@
+global:
+  storageClass: "sc-redis-cluster"
+master:
+  persistence:
+    size: 50Mi
+replica:
+  persistence:
+    size: 50Mi
+auth:
+  existingSecret: redis-cluster  # SecretProviderClass에서 생성한 Secret
+  existingSecretPasswordKey: redis-password  # Secret 안의 key 이름

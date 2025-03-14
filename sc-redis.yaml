@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-redis-cluster
+provisioner: kubernetes.io/aws-ebs  # 클라우드 환경에 따라 변경 필요
+parameters:
+  type: gp2  # AWS EBS에서는 gp2 사용 (GCP는 pd-standard, Azure는 default)
+reclaimPolicy: Delete # ReclaimPolicy를 Delete로 설정하여 PVC가 있을 때 자동으로 PV가 생성
+volumeBindingMode: WaitForFirstConsumer 
+allowVolumeExpansion: true

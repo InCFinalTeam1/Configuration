@@ -1,0 +1,49 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-service-ingress ###################고칠부분
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:227250033304:certificate/6072454d-f6ff-4890-a40d-93d1c721ae01
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/success-codes: '200'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    # ⏳ 요청 타임아웃 설정 (Idle Timeout)
+    alb.ingress.kubernetes.io/load-balancer-attributes: "idle_timeout.timeout_seconds=60"
+spec:
+  rules:
+  - host: www.ssginc.store  ###################고칠부분
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix 
+        backend:
+          service:
+            name: project-main-app-service  ###################고칠부분
+            port:
+              number: 8000
+      - path: "/user"
+        pathType: Prefix 
+        backend:
+          service:
+            name: project-user-app-service  ###################고칠부분
+            port:
+              number: 8001
+      - path: "/client"
+        pathType: Prefix 
+        backend:
+          service:
+            name: project-client-app-service  ###################고칠부분
+            port:
+              number: 8002
+      - path: "/analyze"
+        pathType: Prefix 
+        backend:
+          service:
+            name: project-streamlit-app-service  ###################고칠부분
+            port:
+              number: 8501
